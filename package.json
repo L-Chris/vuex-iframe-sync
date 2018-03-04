@@ -1,6 +1,6 @@
 {
   "name": "vuex-iframe-sync",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "vuex plugin: sync state between parent and iframe",
   "main": "dist/vuex-iframe-sync.js",
   "module": "dist/vuex-iframe-sync.es.js",
