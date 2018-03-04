@@ -20,6 +20,7 @@ $ yarn add vuex-iframe-sync
 ```js
 // in component with iframe
 <iframe id="frameId1"/>
+<iframe id="frameId2"/>
 
 // in parent vuex store
 import {broadcast} from 'vuex-iframe-sync'
@@ -27,7 +28,7 @@ import {broadcast} from 'vuex-iframe-sync'
 const store = new Vuex.Store({
   // ...
   plugins: [
-    broadcast('frameId1')
+    broadcast('frameId1,frameId2')
   ]
 })
 
@@ -36,17 +37,19 @@ window.vm = new Vue({
   //...
 })
 
-// in children(iframe) vuex store
+// in iframe vuex store
 import {wrapMutations, tranfer} from 'vuex-iframe-sync'
+
+const vm = window.parent.vm
 
 let config = {
   // ...
   mutations: {...},
   plugins: [
-    tranfer(window.parent.vm)
+    tranfer(vm)
   ]
 }
-config.mutations = wrapMutations(config.mutations)
+config.mutations = wrapMutations(vm, config.mutations)
 
 const store = new Vuex.Store(config)
 ```
@@ -57,10 +60,10 @@ const store = new Vuex.Store(config)
 
 Send state changes payload to iframe through postMessage API while parent state change.
 
-### wrapMutations(mutations)
+### wrapMutations(vm, mutations)
 
 
-### tranfer(vm)
+### transfer(vm)
 
 Commit change to iframe's store while parent's state change.
 Add message event to parent window, change iframe state in callback.
