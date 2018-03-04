@@ -1,0 +1,37 @@
+{
+  "name": "vuex-iframe-sync",
+  "version": "0.0.1",
+  "description": "vuex plugin: sync state between parent and iframe",
+  "main": "dist/vuex-iframe-sync.js",
+  "module": "dist/vuex-iframe-sync.es.js",
+  "jsnext:main": "dist/vuex-iframe-sync.es.js",
+  "umd:main": "dist/vuex-iframe-sync.umd.js",
+  "scripts": {
+    "build": "rimraf dist && microbundle --external all",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/L-Chris/vuex-iframe-sync.git"
+  },
+  "keywords": [
+    "vuex",
+    "iframe",
+    "sync"
+  ],
+  "author": "l-chris",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/L-Chris/vuex-iframe-sync/issues"
+  },
+  "homepage": "https://github.com/L-Chris/vuex-iframe-sync#readme",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "microbundle": "^0.4.4",
+    "rimraf": "^2.6.2"
+  },
+  "dependencies": {
+    "vue": "^2.5.13",
+    "vuex": "^3.0.1"
+  }
+}
