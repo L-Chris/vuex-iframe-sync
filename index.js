@@ -21,7 +21,7 @@ export const wrapMutations = (vm, mutations) => {
 }
 
 // sync from iframe to parent or other iframe
-export const tranfer = (vm, mutations) => store => {
+export const transfer = (vm, mutations) => store => {
   // receive message from parent
   const handleMessage = ({data}) => {
     let {type, payload} = data
