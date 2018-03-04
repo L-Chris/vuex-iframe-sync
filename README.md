@@ -1,6 +1,6 @@
 # vuex-iframe-sync
 
-> vuex plugin: sync state between parent and iframe
+> sync state between parent and iframe
 
 ## Requirements
 
@@ -12,19 +12,22 @@
 ```bash
 $ npm install vuex-iframe-sync
 or
-yarn add vuex-iframe-sync
+$ yarn add vuex-iframe-sync
 ```
 
 ## Usage
 
 ```js
+// in component with iframe
+<iframe id="frameId1"/>
+
 // in parent vuex store
 import {broadcast} from 'vuex-iframe-sync'
 
 const store = new Vuex.Store({
   // ...
   plugins: [
-    broadcast('frameId1,frameId2')
+    broadcast('frameId1')
   ]
 })
 
@@ -47,3 +50,21 @@ config.mutations = wrapMutations(config.mutations)
 
 const store = new Vuex.Store(config)
 ```
+
+## API
+
+### broadcast(id)
+
+Send state changes payload to iframe through postMessage API while parent state change.
+
+### wrapMutations(mutations)
+
+
+### tranfer(vm)
+
+Commit change to iframe's store while parent's state change.
+Add message event to parent window, change iframe state in callback.
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
