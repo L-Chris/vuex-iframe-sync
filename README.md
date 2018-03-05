@@ -17,7 +17,7 @@ $ yarn add vuex-iframe-sync
 
 ## Examples
 
-- [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/dev/examples/with-webpack)
+- [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
 
 ## Usage
 
@@ -55,7 +55,7 @@ const store = new Vuex.Store(config)
 
 ## API
 
-### broadcast(ids: String>)
+### broadcast(id: String)
 
 `id <String>`: frameId
 
