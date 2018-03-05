@@ -38,7 +38,7 @@ window.vm = new Vue({
 })
 
 // in iframe vuex store
-import {wrapMutations, tranfer} from 'vuex-iframe-sync'
+import {wrapMutations, transfer} from 'vuex-iframe-sync'
 
 const vm = window.parent.vm
 
@@ -46,7 +46,7 @@ let config = {
   // ...
   mutations: {...},
   plugins: [
-    tranfer(vm)
+    transfer(vm)
   ]
 }
 config.mutations = wrapMutations(vm, config.mutations)
