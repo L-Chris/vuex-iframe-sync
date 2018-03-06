@@ -28,10 +28,10 @@ $ yarn add vuex-iframe-sync
 // in parent's store.js
 import {broadcast} from 'vuex-iframe-sync'
 
-const store = new Vuex.Store({
+export default new Vuex.store({
   // ...
   plugins: [
-    broadcast('frameId')
+    broadcast('frameId1,frameId2')
   ]
 })
 
@@ -43,21 +43,19 @@ window.vm = new Vue({
 // in iframe's store.js
 import {transfer} from 'vuex-iframe-sync'
 
-let config = {
-  // ...
+export default new Vuex.store({
+  // same state and mutations with parent
   plugins: [
     transfer(window.parent.vm)
   ]
-}
-
-const store = new Vuex.Store(config)
+})
 ```
 
 ## API
 
-### broadcast(id: String)
+### broadcast(ids: String)
 
-`id <String>`: frameId
+`ids <String>`: frameIds split by ','
 
 Send state changes payload to iframes through postMessage API while parent state change.
 
@@ -68,7 +66,8 @@ Send state changes payload to iframes through postMessage API while parent state
 Receive state changes from parent. Send state changes to parent while self state change.
 
 ## Pending
-- support iframes/window sync (For now, one iframe is supported)
+- support iframes/window sync [√]
+- initialization sync when iframe loaded
 
 ## License
 

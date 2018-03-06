@@ -1,6 +1,7 @@
 <template>
   <div>
     <iframe id="frameId1" src="appFrame.html" style="width:100%;"/>
+    <iframe id="frameId2" src="appFrame.html" style="width:100%;"/>
     <button @click="handleClick">Add from parent</button>
     {{$store.state.count}}
   </div>

@@ -4,7 +4,7 @@ import {broadcast} from '../../../../index'
 
 Vue.use(Vuex)
 
-const config = {
+export default new Vuex.Store({
   state: {
     count: 0
   },
@@ -16,8 +16,6 @@ const config = {
   },
   actions: {},
   plugins: [
-    broadcast('frameId1')
+    broadcast('frameId1,frameId2')
   ]
-}
-
-export default new Vuex.Store(config)
+})
