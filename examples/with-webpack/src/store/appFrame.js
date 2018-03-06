@@ -4,7 +4,7 @@ import {transfer} from '../../../../index'
 
 Vue.use(Vuex)
 
-const config = {
+export default new Vuex.Store({
   state: {
     count: 0
   },
@@ -18,6 +18,4 @@ const config = {
   plugins: [
     transfer(window.parent.vm)
   ]
-}
-
-export default new Vuex.Store(config)
+})
