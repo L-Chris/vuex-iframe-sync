@@ -23,7 +23,8 @@ $ yarn add vuex-iframe-sync
 
 ```js
 // in parent's component with iframe
-<iframe id="frameId"/>
+<iframe id="frameId1"/>
+<iframe id="frameId2"/>
 
 // in parent's store.js
 import {broadcast} from 'vuex-iframe-sync'
