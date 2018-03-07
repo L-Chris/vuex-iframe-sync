@@ -7,6 +7,11 @@
 - [Vue.js](https://vuejs.org) (v2.0.0+)
 - [Vuex](http://vuex.vuejs.org) (v2.0.0+)
 
+**Note** Iframe.contentWindow.postMessage has limition on message, works like JSON.parse() and JSON.stringfy().
+- [MDN window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
+- [MDN Structured_clone_algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)
+
+
 ## Installation
 
 ```bash
@@ -68,7 +73,10 @@ Receive state changes from parent. Send state changes to parent while self state
 
 ## Pending
 - support iframes/window sync [√]
-- initialization sync when iframe loaded
+- initialization sync when iframe loaded [√]
+- flexible configuration like hook
+- test
+- live example
 
 ## License
 
