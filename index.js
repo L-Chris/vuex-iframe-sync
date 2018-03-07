@@ -1,13 +1,26 @@
-const moduleName = 'vi-sync'
+const moduleName = 'VI_SYNC'
 const childPrefix = 'CHILD_'
 const parentPrefix = 'PARENT_'
+const VALID_TYPE_RE = new RegExp(`^(${childPrefix}|${moduleName})`)
 
 // mutation types
 const ADD_IN_BROADCAST_LIST = 'ADD_IN_BROADCAST_LIST'
 const DEL_IN_BROADCAST_LIST = 'DEL_IN_BROADCAST_LIST'
+const INIT_STATE = 'INIT_STATE'
 
 // sync from parent to iframe
 export const broadcast = ids => store => {
+  function convertToSaveObject (obj) {
+    return obj
+  }
+
+  function postMessage (frame, {type, payload} = {}) {
+    frame.contentWindow && frame.contentWindow.postMessage({
+      type,
+      payload: convertToSaveObject(payload)
+    }, location.origin)
+  }
+
   if (typeof ids !== 'string') return
   const allFrameIds = ids.split(',')
   const {_mutations: mutations} = store
@@ -27,7 +40,12 @@ export const broadcast = ids => store => {
       [ADD_IN_BROADCAST_LIST] (state, id) {
         if (allFrameIds.indexOf(id) < 0) return
         const frame = document.getElementById(id)
-        frame && frame.tagName === 'IFRAME' && state.liveFrames.push(frame)
+        if (frame && frame.tagName === 'IFRAME') {
+          state.liveFrames.push(frame)
+          // initialization sync
+          let {[moduleName]: VIModule, ...stateWithoutVIModule} = store.state
+          postMessage(frame, {type: INIT_STATE, payload: stateWithoutVIModule})
+        }
       },
       [DEL_IN_BROADCAST_LIST] (state, id) {
         let index = state.liveFrames.map(_ => _.id).indexOf(id)
@@ -40,13 +58,13 @@ export const broadcast = ids => store => {
   Object.entries(mutations).forEach(([type, funcList]) => {
     mutations[childPrefix + type] = funcList.map(f => ({id, value}) => {
       f(value)
-      store.state[moduleName].liveFrames.forEach(_ => _.id !== id && _.contentWindow.postMessage({ type, payload: value }, location.origin))
+      store.state[moduleName].liveFrames.forEach(_ => _.id !== id && postMessage(_, {type, payload: value}))
     })
   })
 
   store.subscribe(({type, payload}, state) => {
-    if (type.includes(childPrefix)) return
-    state[moduleName].liveFrames.forEach(_ => _.contentWindow.postMessage({ type, payload }, location.origin))
+    if (VALID_TYPE_RE.test(type)) return
+    state[moduleName].liveFrames.forEach(_ => postMessage(_, {type, payload}))
   })
 }
 
@@ -67,8 +85,8 @@ export const transfer = vm => store => {
   // receive message from parent
   function handleMessage ({data}) {
     let {type, payload} = data
-    if (!Reflect.has(mutations, type)) return
-    type && store.commit(parentPrefix + type, payload)
+    if (!type || !Reflect.has(mutations, type) && type !== INIT_STATE) return
+    store.commit(parentPrefix + type, payload)
   }
 
   window.addEventListener('load', handleLoad)
@@ -79,9 +97,13 @@ export const transfer = vm => store => {
   Object.entries(mutations).forEach(([type, funcList]) => {
     mutations[parentPrefix + type] = funcList
   })
+  // init mutation
+  mutations[parentPrefix + INIT_STATE] = [payload => {
+    Object.assign(store.state, payload)
+  }]
 
   store.subscribe(({type, payload}, state) => {
-    if (type.includes(parentPrefix)) return
+    if (type.indexOf(parentPrefix) >= 0) return
     $store.commit(childPrefix + type, {id, value: payload})
   })
 }

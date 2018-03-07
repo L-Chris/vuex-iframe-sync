@@ -10,8 +10,8 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
-    'ADD_COUNT' (state) {
-      state.count = state.count + 1
+    'ADD_COUNT' (state, increasement) {
+      state.count = state.count + increasement
     }
   },
   actions: {},
