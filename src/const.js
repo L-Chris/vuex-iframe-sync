@@ -1,11 +1,7 @@
-const moduleName = 'VI_SYNC'
-const childPrefix = 'CHILD_'
-const parentPrefix = 'PARENT_'
-
 export const staticOptions = {
-  moduleName,
-  childPrefix,
-  parentPrefix
+  moduleName: 'VI_SYNC',
+  childPrefix: 'CHILD_',
+  parentPrefix: 'PARENT_'
 }
 
 // mutation types

@@ -1,6 +1,5 @@
 import Subject from './Subject'
-import {ObserverIframe} from './Observer'
-import {noop, isFunction} from './utils'
+import {Observer} from './Observer'
 import {staticOptions} from './const'
 
 // sync from parent to iframe
@@ -10,21 +9,21 @@ export const broadcast = (ids, options = {}) => store => {
   Subject.parentPrefix = parentPrefix || staticOptions.parentPrefix
   Subject.childPrefix = childPrefix || staticOptions.childPrefix
 
-  new Subject({ids, store})
+  return new Subject({ids, store})
 }
 
 // sync from iframe to parent or other iframe
 export const transfer = (vm, options = {}) => store => {
-  const {id} = window.frameElement
-  const {$store} = vm
-
   let {moduleName, parentPrefix, childPrefix, created, destroyed} = options
-  ObserverIframe.moduleName = moduleName || staticOptions.moduleName
-  ObserverIframe.parentPrefix = parentPrefix || staticOptions.parentPrefix
-  ObserverIframe.childPrefix = childPrefix || staticOptions.childPrefix
+  Observer.moduleName = moduleName || staticOptions.moduleName
+  Observer.parentPrefix = parentPrefix || staticOptions.parentPrefix
+  Observer.childPrefix = childPrefix || staticOptions.childPrefix
 
-  created = isFunction(created) ? created : noop
-  destroyed = isFunction(destroyed) ? destroyed : noop
-
-  new ObserverIframe({id, $store, store, created, destroyed})
+  return new Observer({
+    id: window.frameElement.id,
+    $store: vm.$store,
+    store,
+    created,
+    destroyed
+  })
 }

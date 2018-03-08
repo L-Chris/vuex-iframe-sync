@@ -1,4 +1,5 @@
-import {Observer} from './Observer'
+import {ObserverIframe} from './Observer'
+import {cloneWithout} from './utils'
 import {
   ADD_IN_BROADCAST_LIST,
   DEL_IN_BROADCAST_LIST,
@@ -18,9 +19,13 @@ export default class Subject {
     if (this.allFrameIds.indexOf(id) < 0) return
     const iframe = document.getElementById(id)
     if (iframe && iframe.tagName === 'IFRAME') {
-      let observer = new Observer({id, el: iframe})
+      let observer = new ObserverIframe({id, el: iframe})
       this.observerList.push(observer)
-      this.notifyObserver(observer, INIT_STATE, this.store.state)
+      // initialization sync
+      this.notifyObserver(observer, {
+        type: INIT_STATE,
+        payload: cloneWithout(this.store.state, [Subject.moduleName])
+      })
     }
   }
 
@@ -29,13 +34,13 @@ export default class Subject {
     index >= 0 && this.observerList.splice(index, 1)
   }
 
-  notifyObserver (obs, type, payload) {
+  notifyObserver (obs, {type, payload}) {
     obs.update(type, payload)
   }
 
-  notifyObservers ({id, type, value}) {
+  notifyObservers ({id, type, payload}) {
     for (let obs of this.observerList.filter(_ => _.id !== id)) {
-      obs.update(type, value)
+      obs.update(type, payload)
     }
   }
 
@@ -58,16 +63,16 @@ export default class Subject {
 
     // add child mutations
     Object.entries(mutations).forEach(([type, funcList]) => {
-      mutations[childPrefix + type] = funcList.map(f => ({id, value}) => {
-        f(value)
-        that.notifyObservers({id, type, value})
+      mutations[childPrefix + type] = funcList.map(f => ({id, payload}) => {
+        f(payload)
+        that.notifyObservers({id, type, payload})
       })
     })
 
     const VALID_TYPE_RE = new RegExp(`^(${childPrefix}|${moduleName})`)
     that.store.subscribe(({type, payload}, state) => {
       if (VALID_TYPE_RE.test(type)) return
-      that.notifyObservers({type, value: payload})
+      that.notifyObservers({type, payload})
     })
   }
 }
