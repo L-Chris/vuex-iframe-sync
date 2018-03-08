@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {transfer} from '../../../../index'
+import {transfer} from '../../../../src'
 
 Vue.use(Vuex)
 
@@ -16,6 +16,13 @@ export default new Vuex.Store({
   },
   actions: {},
   plugins: [
-    transfer(window.parent.vm)
+    transfer(window.parent.vm, {
+      created (id) {
+        console.log(`iframe[${id}]: created`)
+      },
+      destroyed (id) {
+        console.log(`iframe[${id}]: destroyed`)
+      }
+    })
   ]
 })

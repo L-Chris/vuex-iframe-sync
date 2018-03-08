@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {broadcast} from '../../../../index'
+import {broadcast} from '../../../../src'
 
 Vue.use(Vuex)
 
