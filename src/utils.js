@@ -3,6 +3,8 @@ const oProto = Object.prototype
 const toString = oProto.toString
 const hasOwnProperty = oProto.hasOwnProperty
 
+export const noop = () => {}
+
 function isType (name) {
   return function (obj) {
     return toString.call(obj) === '[object ' + name + ']'
@@ -16,16 +18,16 @@ export const isDate = isType('Date')
 
 export function isObject (obj) {
   let type = typeof obj
-  return type === 'function' || type === 'object' && !!obj
+  return (type === 'function' || type === 'object') && !!obj
 }
 
 export function isElement (obj) {
   return !!(obj && obj.nodeType === 1)
 }
 
-export function deepClone () {
+export function deepClone (obj) {
   if (obj === null || typeof obj !== 'object') return obj
-  
+
   if (isDate(obj)) {
     let copy = new Date()
     copy.setTime(obj.getTime())
@@ -33,16 +35,15 @@ export function deepClone () {
   }
 
   if (isArray(obj)) {
-    let copy = []
     return obj.map(function (_) {
-      return clone(_)
+      return deepClone(_)
     })
   }
 
   if (isObject(obj)) {
     let copy = {}
     for (let attr in obj) {
-      if (hasOwnProperty.call(obj, attr)) copy[attr] = clone(obj[attr])
+      if (hasOwnProperty.call(obj, attr)) copy[attr] = deepClone(obj[attr])
     }
     return copy
   }

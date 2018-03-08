@@ -61,20 +61,27 @@ export default new Vuex.store({
 
 ### broadcast(ids: String)
 
-`ids <String>`: frameIds split by ','
-
 Send state changes payload to iframes through postMessage API while parent state change.
 
-### transfer(vm: Vue)
+`ids <String>`: frameIds split by ','
 
-`vm <Vue>`: reference to parent's root instance.
+### transfer(vm: Vue, [options])
 
 Receive state changes from parent. Send state changes to parent while self state change.
+
+`vm <Vue>` : reference to parent's root instance.
+
+`options` : The following options can be provided to configure the iframe behavior for your specific needs:
+  - `created <Function(id, store, $store)>`: call after iframe created. id: iframeId、store: this.store、$store: parent.store
+  - `destroyed <Function(id, store, $store)>`: call after iframe destroyed. id: iframeId、store: this.store、$store: parent.store
+
 
 ## Pending
 - support iframes/window sync [√]
 - initialization sync when iframe loaded [√]
 - flexible configuration like hook
+  - iframe's created destroyed hook configuration [√]
+  - (pending...)
 - test
 - live example
 
