@@ -1,10 +1,11 @@
+import {noop, isFunction} from './utils'
 import {
   ADD_IN_BROADCAST_LIST,
   DEL_IN_BROADCAST_LIST,
   INIT_STATE
 } from './const'
 
-export class Observer {
+export class ObserverIframe {
   constructor ({id, el}) {
     this.id = id
     this.el = el
@@ -18,21 +19,21 @@ export class Observer {
   }
 }
 
-export class ObserverIframe {
+export class Observer {
   constructor ({id, $store, store, created, destroyed}) {
     this.id = id
     this.$store = $store
     this.store = store
 
-    this.createdCallback = created
-    this.destroyedCallback = destroyed
+    this.createdCallback = isFunction(created) ? created : noop
+    this.destroyedCallback = isFunction(destroyed) ? destroyed : noop
     this.init()
   }
 
   init () {
     const {id, $store, store} = this
-    const {_mutations: mutations} = this.store
-    const {parentPrefix, childPrefix} = ObserverIframe
+    const {_mutations: mutations} = store
+    const {parentPrefix, childPrefix} = Observer
 
     // add parent mutations
     Object.entries(mutations).forEach(([type, funcList]) => {
@@ -45,7 +46,7 @@ export class ObserverIframe {
 
     store.subscribe(({type, payload}, state) => {
       if (type.indexOf(parentPrefix) >= 0) return
-      $store.commit(childPrefix + type, {id, value: payload})
+      $store.commit(childPrefix + type, {id, payload})
     })
 
     // add addEventListener
@@ -56,32 +57,30 @@ export class ObserverIframe {
 
   update (e) {
     let {store} = this
-    const {parentPrefix} = ObserverIframe
+    const {parentPrefix} = Observer
     let { data: {type, payload} } = e
     if ((!type || !Reflect.has(store._mutations, type)) && type !== INIT_STATE) return
     store.commit(parentPrefix + type, payload)
   }
 
   load () {
-    this.$store.commit(`${ObserverIframe.moduleName}/${ADD_IN_BROADCAST_LIST}`, this.id)
+    this.$store.commit(`${Observer.moduleName}/${ADD_IN_BROADCAST_LIST}`, this.id)
     this.created()
   }
   unLoad () {
-    this.$store.commit(`${ObserverIframe.moduleName}/${DEL_IN_BROADCAST_LIST}`, this.id)
+    this.$store.commit(`${Observer.moduleName}/${DEL_IN_BROADCAST_LIST}`, this.id)
     this.destroyed()
   }
 
   // hook
   created () {
     this.createdCallback(this.id, this.store, this.$store)
-    // this.createdCbList.forEach(cb => cb(this.id, this.store, this.$store))
   }
   destroyed () {
     this.destroyedCallback(this.id, this.store, this.$store)
-    // this.destroyedCbList.forEach(cb => cb(this.id, this.store, this.$store))
   }
 }
 
-ObserverIframe.moduleName = ''
-ObserverIframe.parentPrefix = ''
-ObserverIframe.childPrefix = ''
+Observer.moduleName = ''
+Observer.parentPrefix = ''
+Observer.childPrefix = ''

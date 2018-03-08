@@ -25,6 +25,14 @@ export function isElement (obj) {
   return !!(obj && obj.nodeType === 1)
 }
 
+export function cloneWithout (obj, attrs = []) {
+  let copy = {}
+  for (let attr in obj) {
+    attrs.indexOf(attr) < 0 && (copy[attr] = obj[attr])
+  }
+  return copy
+}
+
 export function deepClone (obj) {
   if (obj === null || typeof obj !== 'object') return obj
 

@@ -1,6 +1,7 @@
 # vuex-iframe-sync
 
 > Vuex state synchronization between iframe/window
+<p align="right">Your star is the greatest encouragement to me. -- Author</p>
 
 ## Requirements
 
