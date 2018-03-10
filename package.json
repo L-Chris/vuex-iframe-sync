@@ -35,6 +35,7 @@
     "html-webpack-plugin": "^3.0.6",
     "microbundle": "^0.4.4",
     "rimraf": "^2.6.2",
+    "uglifyjs-webpack-plugin": "^1.2.2",
     "vue-loader": "^14.2.1",
     "vue-template-compiler": "^2.5.14",
     "webpack": "^4.1.1",

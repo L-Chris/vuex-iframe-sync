@@ -34,8 +34,9 @@ yarn add vuex-iframe-sync
 
 ## Examples
 
+- [live example](https://l-chris.github.io/page-test/)
 - [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
-- [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
+- [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/simple)
 
 ## Usage
 
@@ -88,8 +89,10 @@ Receive state changes from parent. Send state changes to parent while self state
 - flexible configuration like hook
   - iframe's created destroyed hook configuration [√]
   - (pending...)
+- live example [√]
 - test
-- live example
+- @shim
+
 
 ## License
 
