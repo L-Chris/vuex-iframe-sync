@@ -74,6 +74,14 @@ export default class Subject {
       if (VALID_TYPE_RE.test(type)) return
       that.notifyObservers({type, payload})
     })
+
+    window.addEventListener('message', this.update.bind(this))
+  }
+
+  update ({ data: {type, payload} }) {
+    const {store} = this
+    if (!type || !Reflect.has(store._mutations, type)) return
+    store.commit(type, payload)
   }
 }
 

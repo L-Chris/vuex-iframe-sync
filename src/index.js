@@ -13,7 +13,7 @@ export const broadcast = (ids, options = {}) => store => {
 }
 
 // sync from iframe to parent or other iframe
-export const transfer = (vm, options = {}) => store => {
+export const transfer = (options = {}) => store => {
   let {moduleName, parentPrefix, childPrefix, created, destroyed} = options
   Observer.moduleName = moduleName || staticOptions.moduleName
   Observer.parentPrefix = parentPrefix || staticOptions.parentPrefix
@@ -21,7 +21,6 @@ export const transfer = (vm, options = {}) => store => {
 
   return new Observer({
     id: window.frameElement.id,
-    $store: vm.$store,
     store,
     created,
     destroyed

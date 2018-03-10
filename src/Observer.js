@@ -20,10 +20,10 @@ export class ObserverIframe {
 }
 
 export class Observer {
-  constructor ({id, $store, store, created, destroyed}) {
+  constructor ({id, parent, store, created, destroyed}) {
     this.id = id
-    this.$store = $store
     this.store = store
+    this.parent = parent || window.parent
 
     this.createdCallback = isFunction(created) ? created : noop
     this.destroyedCallback = isFunction(destroyed) ? destroyed : noop
@@ -31,7 +31,8 @@ export class Observer {
   }
 
   init () {
-    const {id, $store, store} = this
+    const that = this
+    const {id, store} = this
     const {_mutations: mutations} = store
     const {parentPrefix, childPrefix} = Observer
 
@@ -46,7 +47,7 @@ export class Observer {
 
     store.subscribe(({type, payload}, state) => {
       if (type.indexOf(parentPrefix) >= 0) return
-      $store.commit(childPrefix + type, {id, payload})
+      that.send(childPrefix + type, {id, payload})
     })
 
     // add addEventListener
@@ -54,30 +55,32 @@ export class Observer {
     window.addEventListener('message', this.update.bind(this))
     window.addEventListener('beforeunload', this.unLoad.bind(this))
   }
-
-  update (e) {
-    let {store} = this
-    const {parentPrefix} = Observer
-    let { data: {type, payload} } = e
+  update ({ data: {type, payload} }) {
+    const {store} = this
     if ((!type || !Reflect.has(store._mutations, type)) && type !== INIT_STATE) return
+    const {parentPrefix} = Observer
     store.commit(parentPrefix + type, payload)
   }
 
+  send (type, payload) {
+    this.parent && this.parent.postMessage({type, payload}, location.origin)
+  }
+
   load () {
-    this.$store.commit(`${Observer.moduleName}/${ADD_IN_BROADCAST_LIST}`, this.id)
+    this.send(`${Observer.moduleName}/${ADD_IN_BROADCAST_LIST}`, this.id)
     this.created()
   }
   unLoad () {
-    this.$store.commit(`${Observer.moduleName}/${DEL_IN_BROADCAST_LIST}`, this.id)
+    this.send(`${Observer.moduleName}/${DEL_IN_BROADCAST_LIST}`, this.id)
     this.destroyed()
   }
 
   // hook
   created () {
-    this.createdCallback(this.id, this.store, this.$store)
+    this.createdCallback(this.id, this.store, this.send.bind(this))
   }
   destroyed () {
-    this.destroyedCallback(this.id, this.store, this.$store)
+    this.destroyedCallback(this.id, this.store, this.send.bind(this))
   }
 }
 

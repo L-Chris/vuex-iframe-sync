@@ -16,7 +16,7 @@ export default new Vuex.Store({
   },
   actions: {},
   plugins: [
-    transfer(window.parent.vm, {
+    transfer({
       created (id) {
         console.log(`iframe[${id}]: created`)
       },

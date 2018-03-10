@@ -15,15 +15,27 @@
 
 ## Installation
 
+### CDN
+
 ```bash
-$ npm install vuex-iframe-sync
-or
-$ yarn add vuex-iframe-sync
+<script src="https://cdn.jsdelivr.net/npm/vuex-iframe-sync/dist/vuex-iframe-sync.umd.js"></script>
+```
+
+### NPM
+
+```bash
+npm install vuex-iframe-sync
+```
+### YARN
+
+```bash
+yarn add vuex-iframe-sync
 ```
 
 ## Examples
 
 - [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
+- [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
 
 ## Usage
 
@@ -42,18 +54,13 @@ export default new Vuex.store({
   ]
 })
 
-// in parent's entry js
-window.vm = new Vue({
-  //...
-})
-
 // in iframe's store.js
 import {transfer} from 'vuex-iframe-sync'
 
 export default new Vuex.store({
   // same state and mutations with parent
   plugins: [
-    transfer(window.parent.vm)
+    transfer()
   ]
 })
 ```
@@ -66,15 +73,13 @@ Send state changes payload to iframes through postMessage API while parent state
 
 `ids <String>`: frameIds split by ','
 
-### transfer(vm: Vue, [options])
+### transfer([options])
 
 Receive state changes from parent. Send state changes to parent while self state change.
 
-`vm <Vue>` : reference to parent's root instance.
-
 `options` : The following options can be provided to configure the iframe behavior for your specific needs:
-  - `created <Function(id, store, $store)>`: call after iframe created. id: iframeId、store: this.store、$store: parent.store
-  - `destroyed <Function(id, store, $store)>`: call after iframe destroyed. id: iframeId、store: this.store、$store: parent.store
+  - `created <Function(id, store, $store)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
+  - `destroyed <Function(id, store, $store)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
 
 
 ## Pending
