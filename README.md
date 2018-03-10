@@ -1,19 +1,32 @@
-# vuex-iframe-sync
+<h1 align="center">vuex-iframe-sync</h1>
+<p align="center">Vuex<strong> state synchronization</strong><em> between </em><strong> iframe/window</strong></p>
+<p align="center">
+  <a href="https://www.npmjs.com/package/vuex-iframe-sync">
+    <img src="https://img.shields.io/npm/v/vuex-iframe-sync.svg" alt="npm">
+  </a>
+  <a href="https://www.npmjs.com/package/vuex-iframe-sync">
+    <img src="https://img.shields.io/npm/dm/vuex-iframe-sync.svg" alt="downloads">
+  </a>
+</p>
+<p align="right"><em>Your star is the greatest encouragement to me.</em></p>
 
-> Vuex state synchronization between iframe/window
-<p align="right">Your star is the greatest encouragement to me. -- Author</p>
+## ✨ Features:
 
-## Requirements
+- support iframes/window sync
+- initialization sync when iframe loaded
+- configure the sync behavior for your specific needs
+
+## 🔧 Requirements
 
 - [Vue.js](https://vuejs.org) (v2.0.0+)
-- [Vuex](http://vuex.vuejs.org) (v2.0.0+)
+- [Vuex](http://vuex.vuejs.org) (v2.1.0+)
 
-**Note** Iframe.contentWindow.postMessage has limition on message, works like JSON.parse() and JSON.stringfy().
+**Note** window.postMessage has limition on message, works like JSON.parse() and JSON.stringfy().
 - [MDN window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
 - [MDN Structured_clone_algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)
 
 
-## Installation
+## 🔧 Installation
 
 ### CDN
 
@@ -32,13 +45,13 @@ npm install vuex-iframe-sync --save
 yarn add vuex-iframe-sync
 ```
 
-## Examples
+## 📦 Examples
 
-- [live example](https://l-chris.github.io/page-test/)
+- [live example](https://l-chris.github.io/vuex-iframe-sync/)
 - [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
 - [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/simple)
 
-## Usage
+## 📦 Usage
 
 ```js
 // in parent's component with iframe
@@ -66,7 +79,7 @@ export default new Vuex.store({
 })
 ```
 
-## API
+## 🔧 API
 
 ### broadcast(ids: String)
 
@@ -82,18 +95,28 @@ Receive state changes from parent. Send state changes to parent while self state
   - `created <Function(id, store, send)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
   - `destroyed <Function(id, store, send)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
 
+## Build Setup
+``` bash
+# serve with with-webpack example at localhost:8080
+npm run dev
 
-## Pending
-- support iframes/window sync [√]
-- initialization sync when iframe loaded [√]
-- flexible configuration like hook
-  - iframe's created destroyed hook configuration [√]
-  - (pending...)
-- live example [√]
-- test
-- @shim
+# serve with simple example at localhost:8080
+npm run dev:simple
 
+# build for production with minification
+npm run build
 
-## License
+# build for production with live example
+npm run build:docs
+```
+
+## 🛣 Pending
+- flexible configuration
+  - convert payload before pass to postMessage
+  - ...
+- test with jest
+- shim version
+
+## 🥂 License
 
 [MIT](http://opensource.org/licenses/MIT)
