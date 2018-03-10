@@ -24,7 +24,7 @@
 ### NPM
 
 ```bash
-npm install vuex-iframe-sync
+npm install vuex-iframe-sync --save
 ```
 ### YARN
 
@@ -34,8 +34,9 @@ yarn add vuex-iframe-sync
 
 ## Examples
 
+- [live example](https://l-chris.github.io/page-test/)
 - [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
-- [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
+- [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/simple)
 
 ## Usage
 
@@ -78,8 +79,8 @@ Send state changes payload to iframes through postMessage API while parent state
 Receive state changes from parent. Send state changes to parent while self state change.
 
 `options` : The following options can be provided to configure the iframe behavior for your specific needs:
-  - `created <Function(id, store, $store)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
-  - `destroyed <Function(id, store, $store)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
+  - `created <Function(id, store, send)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
+  - `destroyed <Function(id, store, send)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
 
 
 ## Pending
@@ -88,8 +89,10 @@ Receive state changes from parent. Send state changes to parent while self state
 - flexible configuration like hook
   - iframe's created destroyed hook configuration [√]
   - (pending...)
+- live example [√]
 - test
-- live example
+- @shim
+
 
 ## License
 
