@@ -1,10 +1,10 @@
 const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
+  context: __dirname,
   entry: {
     app: './src/app.js',
     appFrame: './src/appFrame.js'
@@ -30,13 +30,7 @@ module.exports = {
     ]
   },
   devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
-    quiet: true,
-    hot: true
-  },
   plugins: [
-    // new CleanWebpackPlugin('./dist'),
     new HtmlWebpackPlugin({
       title: 'app',
       filename: 'index.html',

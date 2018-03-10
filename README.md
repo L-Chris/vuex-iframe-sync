@@ -24,7 +24,7 @@
 ### NPM
 
 ```bash
-npm install vuex-iframe-sync
+npm install vuex-iframe-sync --save
 ```
 ### YARN
 
@@ -78,8 +78,8 @@ Send state changes payload to iframes through postMessage API while parent state
 Receive state changes from parent. Send state changes to parent while self state change.
 
 `options` : The following options can be provided to configure the iframe behavior for your specific needs:
-  - `created <Function(id, store, $store)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
-  - `destroyed <Function(id, store, $store)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
+  - `created <Function(id, store, send)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
+  - `destroyed <Function(id, store, send)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
 
 
 ## Pending
