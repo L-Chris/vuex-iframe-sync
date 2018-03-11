@@ -1,7 +1,7 @@
 <h1 align="center">
   vuex-iframe-sync
 </h1>
-<p style="position:absolute;top:16px;right:28px;">
+<p align="right" style="position:absolute;top:16px;right:28px;">
   中文 | <a href="https://github.com/L-Chris/vuex-iframe-sync/blob/master/README.md">English</a>
 </p>
 <p align="center"><strong>iframe和window</strong>间<strong>同步状态</strong>的解决方案</em></p>
@@ -111,6 +111,9 @@ npm run dev
 
 # serve with simple example at localhost:8080
 npm run dev:simple
+
+# test with jest
+npm run test
 
 # build for production with minification
 npm run build

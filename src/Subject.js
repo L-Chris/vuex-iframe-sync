@@ -27,6 +27,7 @@ export default class Subject {
         type: INIT_STATE,
         payload: cloneWithout(this.store.state, [Subject.moduleName])
       })
+      return observer
     }
   }
 
@@ -36,8 +37,7 @@ export default class Subject {
   }
 
   notifyObserver (obs, {type, payload}) {
-    payload = this.convert(payload)
-    obs.update(type, payload)
+    obs.update(type, this.convert(payload))
   }
 
   notifyObservers ({id, type, payload}) {
