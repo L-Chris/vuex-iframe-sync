@@ -4,6 +4,7 @@ const toString = oProto.toString
 const hasOwnProperty = oProto.hasOwnProperty
 
 export const noop = () => {}
+export const returnSelf = _ => _
 
 function isType (name) {
   return function (obj) {
