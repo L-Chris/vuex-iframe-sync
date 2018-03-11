@@ -20,7 +20,7 @@ export const transfer = (options = {}) => store => {
   Observer.childPrefix = childPrefix || staticOptions.childPrefix
 
   return new Observer({
-    id: window.frameElement.id,
+    id: options.id || window.frameElement.id,
     store,
     convert,
     created,

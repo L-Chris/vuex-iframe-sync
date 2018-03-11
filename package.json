@@ -1,7 +1,7 @@
 {
   "name": "vuex-iframe-sync",
   "amdName": "IframeSync",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Vuex state synchronization between iframe/window",
   "main": "dist/vuex-iframe-sync.js",
   "module": "dist/vuex-iframe-sync.es.js",
@@ -12,7 +12,7 @@
     "dev:simple": "webpack-dev-server --open --config ./examples/simple/webpack.config.js",
     "build": "rimraf dist && microbundle --external all",
     "build:docs": "webpack --config ./examples/with-webpack/webpack.prod.conf.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -33,6 +33,7 @@
     "babel-preset-env": "^1.6.1",
     "css-loader": "^0.28.10",
     "html-webpack-plugin": "^3.0.6",
+    "jest": "^22.4.2",
     "microbundle": "^0.4.4",
     "rimraf": "^2.6.2",
     "uglifyjs-webpack-plugin": "^1.2.2",

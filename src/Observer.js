@@ -11,11 +11,11 @@ export class ObserverIframe {
     this.el = el
   }
 
-  update (type, payload) {
+  update (type, payload, targetOrigin = location.origin) {
     this.el && this.el.contentWindow.postMessage({
       type,
       payload
-    }, location.origin)
+    }, targetOrigin)
   }
 }
 
@@ -63,11 +63,11 @@ export class Observer {
     store.commit(parentPrefix + type, payload)
   }
 
-  send (type, payload) {
+  send (type, payload, targetOrigin = location.origin) {
     this.parent && this.parent.postMessage({
       type,
       payload: this.convert(payload)
-    }, location.origin)
+    }, targetOrigin)
   }
 
   load () {

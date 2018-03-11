@@ -1,7 +1,7 @@
 <h1 align="center">
   vuex-iframe-sync
 </h1>
-<p style="position:absolute;top:16px;right:28px;">
+<p align="right" style="position:absolute;top:16px;right:28px;">
   English | <a href="https://github.com/L-Chris/vuex-iframe-sync/blob/master/README.zh-CN.md">中文</a>
 </p>
 <p align="center">Vuex<strong> state synchronization</strong><em> between </em><strong> iframe/window</strong></p>
@@ -112,6 +112,9 @@ npm run dev
 # serve with simple example at localhost:8080
 npm run dev:simple
 
+# test with jest
+npm run test
+
 # build for production with minification
 npm run build
 
@@ -123,7 +126,7 @@ npm run build:docs
 - flexible configuration
   - convert payload before pass to postMessage [√]
   - ...
-- test with jest
+- test with jest [√]
 - shim version
 
 ## 🥂 License
