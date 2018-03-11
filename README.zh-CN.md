@@ -2,9 +2,9 @@
   vuex-iframe-sync
 </h1>
 <p style="position:absolute;top:16px;right:28px;">
-  English | <a href="https://github.com/L-Chris/vuex-iframe-sync/blob/master/README.zh-CN.md">中文</a>
+  中文 | <a href="https://github.com/L-Chris/vuex-iframe-sync/blob/master/README.md">English</a>
 </p>
-<p align="center">Vuex<strong> state synchronization</strong><em> between </em><strong> iframe/window</strong></p>
+<p align="center"><strong>iframe和window</strong>间<strong>同步状态</strong>的解决方案</em></p>
 <p align="center">
   <a href="https://www.npmjs.com/package/vuex-iframe-sync">
     <img src="https://img.shields.io/npm/v/vuex-iframe-sync.svg" alt="npm">
@@ -15,23 +15,23 @@
 </p>
 <p align="right"><em>Your star is the greatest encouragement to me.</em></p>
 
-## ✨ Features:
+## ✨ 功能:
 
-- support iframes/window sync
-- initialization sync when iframe loaded
-- configure the sync behavior for your specific needs
+- 多个iframe和window间的双向状态同步
+- iframe触发load事件时自动从父对象初始化状态
+- 允许配置个性化的同步行为
 
-## 🔧 Requirements
+## 🔧 需求
 
 - [Vue.js](https://vuejs.org) (v2.0.0+)
 - [Vuex](http://vuex.vuejs.org) (v2.1.0+)
 
-**Note** window.postMessage has limition on message, works like JSON.parse() and JSON.stringfy().If you have trouble with it, configure a convert function in broadcast and transfer API.
+**注意** window.postMessage对传送的数据有限制, 类似于JSON.parse()和JSON.stringfy()。若你遇到相关问题，可尝试给broadcast和transfer配置convert函数。
 - [MDN window.postMessage](https://developer.mozilla.org/en-US/docs/Web/API/Window/postMessage)
 - [MDN Structured_clone_algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm)
 
 
-## 🔧 Installation
+## 🔧 安装
 
 ### CDN
 
@@ -50,20 +50,20 @@ npm install vuex-iframe-sync --save
 yarn add vuex-iframe-sync
 ```
 
-## 📦 Examples
+## 📦 例子
 
 - [live example](https://l-chris.github.io/vuex-iframe-sync/)
 - [with webpack](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/with-webpack)
 - [simple](https://github.com/L-Chris/vuex-iframe-sync/tree/develop/examples/simple)
 
-## 📦 Usage
+## 📦 使用
 
 ```js
-// in parent's component with iframe
+// 父对象的组件
 <iframe id="frameId1"/>
 <iframe id="frameId2"/>
 
-// in parent's store.js
+// 父对象的store配置
 import {broadcast} from 'vuex-iframe-sync'
 
 export default new Vuex.store({
@@ -73,11 +73,11 @@ export default new Vuex.store({
   ]
 })
 
-// in iframe's store.js
+// iframe的store配置
 import {transfer} from 'vuex-iframe-sync'
 
 export default new Vuex.store({
-  // same state and mutations with parent
+  // 与父对象相同的state和mutations配置
   plugins: [
     transfer()
   ]
@@ -88,23 +88,23 @@ export default new Vuex.store({
 
 ### broadcast(ids: String, [options])
 
-Send state changes payload to iframes through postMessage API while parent state change.
+当父对象状态变更时，通过postMessage API传递给各个iframe。
 
-`ids <String>`: frameIds split by ','
+`ids <String>`: 以逗号分隔的iframeId
 
-`options` : The following options can be provided to configure the parent behavior for your specific needs:
-  - `convert <Function(payload)>`: convert payload before pass to iframes.
+`options` : 下列属性用于配置父对象的个性化同步行为:
+  - `convert <Function(payload)>`: 在传递给各个iframe前转换数据
 
 ### transfer([options])
 
-Receive state changes from parent. Send state changes to parent while self state change.
+当iframe自身状态变更时，通过postMessage API传递给父对象
 
-`options` : The following options can be provided to configure the iframe behavior for your specific needs:
-  - `convert <Function(payload)>`: convert payload before pass to parent.
-  - `created <Function(id, store, send)>`: call after iframe created. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
-  - `destroyed <Function(id, store, send)>`: call after iframe destroyed. id: iframeId、store: this.store、send<Function(type, payload)>：parent.$store.commit
+`options` : 下列属性用于配置iframe的个性化同步行为:
+  - `convert <Function(payload)>`: 在传递给父对象前转换数据
+  - `created <Function(id, store, send)>`: 在iframe load事件后调用（id: iframe的id，store：自身的store，send<Function(type, payload)>：相当于parent.$store.commit，触发父对象中mutations）
+  - `destroyed <Function(id, store, send)>`: 在iframe beforeunload事件后调用（id: iframe的id，store：自身的store，send<Function(type, payload)>：相当于parent.$store.commit，触发父对象中mutations）
 
-## Build Setup
+## 开发、构建步骤
 ``` bash
 # serve with with-webpack example at localhost:8080
 npm run dev
@@ -119,13 +119,13 @@ npm run build
 npm run build:docs
 ```
 
-## 🛣 Pending
-- flexible configuration
-  - convert payload before pass to postMessage [√]
+## 🛣 进行中
+- 个性化配置
+  - 传递前转换数据 [√]
   - ...
-- test with jest
-- shim version
+- 基于jest的单元测试
+- 精简版本
 
-## 🥂 License
+## 🥂 协议
 
 [MIT](http://opensource.org/licenses/MIT)

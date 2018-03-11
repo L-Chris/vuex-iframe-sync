@@ -1,5 +1,5 @@
 import {ObserverIframe} from './Observer'
-import {cloneWithout} from './utils'
+import {isFunction, cloneWithout, returnSelf} from './utils'
 import {
   ADD_IN_BROADCAST_LIST,
   DEL_IN_BROADCAST_LIST,
@@ -7,10 +7,11 @@ import {
 } from './const'
 
 export default class Subject {
-  constructor ({ids, store}) {
+  constructor ({ids, store, convert}) {
     this.allFrameIds = ids.split(',')
     this.observerList = []
     this.store = store
+    this.convert = isFunction(convert) ? convert : returnSelf
 
     this.init()
   }
@@ -35,12 +36,13 @@ export default class Subject {
   }
 
   notifyObserver (obs, {type, payload}) {
+    payload = this.convert(payload)
     obs.update(type, payload)
   }
 
   notifyObservers ({id, type, payload}) {
     for (let obs of this.observerList.filter(_ => _.id !== id)) {
-      obs.update(type, payload)
+      this.notifyObserver(obs, {type, payload})
     }
   }
 

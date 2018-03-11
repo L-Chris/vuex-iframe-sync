@@ -1,4 +1,4 @@
-import {noop, isFunction} from './utils'
+import {isFunction, noop, returnSelf} from './utils'
 import {
   ADD_IN_BROADCAST_LIST,
   DEL_IN_BROADCAST_LIST,
@@ -20,10 +20,11 @@ export class ObserverIframe {
 }
 
 export class Observer {
-  constructor ({id, parent, store, created, destroyed}) {
+  constructor ({id, parent, store, convert, created, destroyed}) {
     this.id = id
     this.store = store
     this.parent = parent || window.parent
+    this.convert = isFunction(convert) ? convert : returnSelf
 
     this.createdCallback = isFunction(created) ? created : noop
     this.destroyedCallback = isFunction(destroyed) ? destroyed : noop
@@ -63,7 +64,10 @@ export class Observer {
   }
 
   send (type, payload) {
-    this.parent && this.parent.postMessage({type, payload}, location.origin)
+    this.parent && this.parent.postMessage({
+      type,
+      payload: this.convert(payload)
+    }, location.origin)
   }
 
   load () {
