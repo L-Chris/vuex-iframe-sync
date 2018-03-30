@@ -1,4 +1,4 @@
-import {isFunction, noop, returnSelf} from './utils'
+import {isFunction, noop, identity} from './utils'
 import {
   ADD_IN_BROADCAST_LIST,
   DEL_IN_BROADCAST_LIST,
@@ -6,16 +6,17 @@ import {
 } from './const'
 
 export class ObserverIframe {
-  constructor ({id, el}) {
+  constructor ({id, el, origin}) {
     this.id = id
     this.el = el
+    this.origin = origin || location.origin
   }
 
-  update (type, payload, targetOrigin = location.origin) {
+  update (type, payload) {
     this.el && this.el.contentWindow.postMessage({
       type,
       payload
-    }, targetOrigin)
+    }, this.origin)
   }
 }
 
@@ -24,7 +25,7 @@ export class Observer {
     this.id = id
     this.store = store
     this.parent = parent || window.parent
-    this.convert = isFunction(convert) ? convert : returnSelf
+    this.convert = isFunction(convert) ? convert : identity
 
     this.createdCallback = isFunction(created) ? created : noop
     this.destroyedCallback = isFunction(destroyed) ? destroyed : noop
@@ -63,11 +64,11 @@ export class Observer {
     store.commit(parentPrefix + type, payload)
   }
 
-  send (type, payload, targetOrigin = location.origin) {
+  send (type, payload) {
     this.parent && this.parent.postMessage({
       type,
       payload: this.convert(payload)
-    }, targetOrigin)
+    }, this.parent.location && this.parent.location.origin)
   }
 
   load () {

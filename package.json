@@ -1,7 +1,7 @@
 {
   "name": "vuex-iframe-sync",
   "amdName": "IframeSync",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Vuex state synchronization between iframe/window",
   "main": "dist/vuex-iframe-sync.js",
   "module": "dist/vuex-iframe-sync.es.js",
