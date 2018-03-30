@@ -90,7 +90,7 @@ export default new Vuex.store({
 
 Send state changes payload to iframes through postMessage API while parent state change.
 
-`ids <String>`: frameIds split by ','
+`ids <String|Array>`: frameIds split by ',' or [{id: iframeId, origin: iframeOrigin}...]
 
 `options` : The following options can be provided to configure the parent behavior for your specific needs:
   - `convert <Function(payload)>`: convert payload before pass to iframes.

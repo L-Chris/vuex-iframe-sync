@@ -90,7 +90,7 @@ export default new Vuex.store({
 
 当父对象状态变更时，通过postMessage API传递给各个iframe。
 
-`ids <String>`: 以逗号分隔的iframeId
+`ids <String|Array>`: 以逗号分隔的iframeId或形如[{id: iframeId, origin: iframeOrigin}...]的数组
 
 `options` : 下列属性用于配置父对象的个性化同步行为:
   - `convert <Function(payload)>`: 在传递给各个iframe前转换数据

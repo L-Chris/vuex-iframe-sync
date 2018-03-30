@@ -23,7 +23,7 @@ describe('Subject', () => {
   const spyOnCommit = jest.spyOn(store, 'commit')
 
   test('attribute', () => {
-    expect(subject.allFrameIds).toEqual(ids.split(','))
+    expect(subject.childs).toEqual(ids.split(',').map(_ => ({id: _})))
     expect(subject.store).toEqual(store)
     expect(subject.convert).toEqual(convert)
   })

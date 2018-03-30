@@ -1,5 +1,5 @@
 import {ObserverIframe} from './Observer'
-import {isFunction, cloneWithout, returnSelf} from './utils'
+import {isFunction, isArray, cloneWithout, identity} from './utils'
 import {
   ADD_IN_BROADCAST_LIST,
   DEL_IN_BROADCAST_LIST,
@@ -8,19 +8,24 @@ import {
 
 export default class Subject {
   constructor ({ids, store, convert}) {
-    this.allFrameIds = ids.split(',')
+    this.childs = typeof ids === 'string'
+      ? ids.split(',').map(_ => ({id: _}))
+      : isArray(ids)
+      ? ids
+      : []
     this.observerList = []
     this.store = store
-    this.convert = isFunction(convert) ? convert : returnSelf
+    this.convert = isFunction(convert) ? convert : identity
 
     this.init()
   }
 
   addObserver (id) {
-    if (this.allFrameIds.indexOf(id) < 0) return
+    let child = this.childs.find(_ => _.id === id)
+    if (!child) return
     const iframe = document.getElementById(id)
     if (iframe && iframe.tagName === 'IFRAME') {
-      let observer = new ObserverIframe({id, el: iframe})
+      let observer = new ObserverIframe({id, origin: child.origin, el: iframe})
       this.observerList.push(observer)
       // initialization sync
       this.notifyObserver(observer, {
