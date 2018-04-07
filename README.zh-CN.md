@@ -6,6 +6,9 @@
 </p>
 <p align="center"><strong>iframe和window</strong>间<strong>同步状态</strong>的解决方案</em></p>
 <p align="center">
+  <a href="https://travis-ci.org/L-Chris/vuex-iframe-sync">
+    <img src="https://img.shields.io/travis/L-Chris/vuex-iframe-sync.svg" alt="build">
+  </a>
   <a href="https://www.npmjs.com/package/vuex-iframe-sync">
     <img src="https://img.shields.io/npm/v/vuex-iframe-sync.svg" alt="npm">
   </a>

@@ -6,6 +6,9 @@
 </p>
 <p align="center">Vuex<strong> state synchronization</strong><em> between </em><strong> iframe/window</strong></p>
 <p align="center">
+  <a href="https://travis-ci.org/L-Chris/vuex-iframe-sync">
+    <img src="https://img.shields.io/travis/L-Chris/vuex-iframe-sync.svg" alt="build">
+  </a>
   <a href="https://www.npmjs.com/package/vuex-iframe-sync">
     <img src="https://img.shields.io/npm/v/vuex-iframe-sync.svg" alt="npm">
   </a>
