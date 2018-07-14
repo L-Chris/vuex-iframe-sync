@@ -126,11 +126,7 @@ npm run build:docs
 ```
 
 ## 🛣 Pending
-- flexible configuration
-  - convert payload before pass to postMessage [√]
-  - ...
-- test with jest [√]
-- shim version
+- Need your advice
 
 ## 🥂 License
 

@@ -9,7 +9,7 @@ export class ObserverIframe {
   constructor ({id, el, origin}) {
     this.id = id
     this.el = el
-    this.origin = origin || location.origin
+    this.origin = origin || '*'
   }
 
   update (type, payload) {
