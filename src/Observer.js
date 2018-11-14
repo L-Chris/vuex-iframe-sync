@@ -13,10 +13,12 @@ export class ObserverIframe {
   }
 
   update (type, payload) {
-    this.el && this.el.contentWindow.postMessage({
-      type,
-      payload
-    }, this.origin)
+    if (this.el && this.el.contentWindow) {
+      this.el.contentWindow.postMessage({
+        type,
+        payload
+      }, this.origin)
+    }
   }
 }
 
